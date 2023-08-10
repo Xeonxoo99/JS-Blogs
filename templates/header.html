@@ -2,6 +2,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <style>
         /* 로그인 버튼 */
+        #name {border:none;background:none;color:tan}
         .loginBtn, .logoutBtn {border:none;background:none;color: #fff}
         .loginBtn:hover, .logoutBtn:hover {color:bisque;background: none}
 
@@ -49,8 +50,7 @@
                         $.cookie('mytoken', response['token']);
                         alert('로그인 완료!')
                         closeModal();
-                        $('.loginBtn').hide();
-                        $('.logoutBtn').show();
+                        location.reload();
                     } else {
                         // 로그인이 안되면 에러메시지를 띄웁니다.
                         alert(response['msg'])
@@ -192,8 +192,13 @@
                 <!-- <button type="submit" onclick="go_login()" >로그인</button>
                 <button type="submit" onclick="go_register()" >회원가입</button> -->
                 <a class="centerText" href="/board">글작성 |</a>
+
+                {%if nickName != null %}
+                <button class="rightText name" onclick="loginModal()" id="name">{{nickName}}</button>
+                <button class="rightText logoutBtn" onclick="logout()">로그아웃</button>
+                {% else %}
                 <button class="rightText loginBtn" onclick="loginModal()">로그인</button>
-                <button class="rightText logoutBtn" onclick="logout()" style="display:none">로그아웃</button>
+                {% endif %}
             </div>
         </div>
     </nav>

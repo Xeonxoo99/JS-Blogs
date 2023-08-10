@@ -212,7 +212,11 @@
     </head>
 
     <body>
-        <header class="nav-down">{% include 'header.html' %}</header>
+        <header class="nav-down">
+            {% with nickName=nickname %}
+                {%include 'header.html'%}
+            {% endwith %}
+        </header>
         <div class="mytitle">
             <div class="center">
                 &nbsp; 오늘의 동기부여
