@@ -97,7 +97,9 @@
         </script>
     </head>
     <body>
-        <header >{% include 'header.html' %}</header>
+        <header class="nav-down">
+            {% with nickName=nickname %} {%include 'header.html'%} {% endwith %}
+        </header>
         <div class="mypost" id="post-box">
             <form>
                 <div class="row mb-3">
