@@ -100,43 +100,43 @@
             show_mypage();
         });
 
-        function show_mypage() {
-            fetch('/mypage/show')
-                .then((res) => res.json())
-                .then((data) => {
-                    let rows = JSON.parse(data['result']);
+        // function show_mypage() {
+        //     fetch('/mypage/show')
+        //         .then((res) => res.json())
+        //         .then((data) => {
+        //             let rows = JSON.parse(data['result']);
 
-                    rows.forEach((a) => {
-                        let nickname = a['nickname'];
-                        let pwd = as['pwd'];
+        //             rows.forEach((a) => {
+        //                 let nickname = a['nickname'];
+        //                 let pwd = as['pwd'];
 
-                        let temp_html = `
-                                            <div class="mb-3">
-                                                <label for="id" class="form-label">아이디 :
-                                                    <input type="text" class="form-control" id="id" disabled value="aaa">
-                                                </label>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="nickname" class="form-label">닉네임 :
-                                                    <input type="nickname" class="form-control" id="nickname" name="nickname" value="${nickname}" required>
-                                                </label>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="pwd" class="form-label">비밀번호 :
-                                                    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="영문자+숫자+특수문자 조합"
-                                                        required value="${pwd}">
-                                                </label>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="confirm_pwd" class="form-label">비밀번호 확인 :
-                                                    <input type="password" class="form-control" id="repwd" name="repwd" required>
-                                                </label>
-                                            </div>
-                                        `
-                                        $("#mypage-list").append(temp_html);
-                    });
-                });
-        }
+        //                 let temp_html = `
+        //                                     <div class="mb-3">
+        //                                         <label for="id" class="form-label">아이디 :
+        //                                             <input type="text" class="form-control" id="id" disabled value="aaa">
+        //                                         </label>
+        //                                     </div>
+        //                                     <div class="mb-3">
+        //                                         <label for="nickname" class="form-label">닉네임 :
+        //                                             <input type="nickname" class="form-control" id="nickname" name="nickname" value="${nickname}" required>
+        //                                         </label>
+        //                                     </div>
+        //                                     <div class="mb-3">
+        //                                         <label for="pwd" class="form-label">비밀번호 :
+        //                                             <input type="password" class="form-control" id="pwd" name="pwd" placeholder="영문자+숫자+특수문자 조합"
+        //                                                 required value="${pwd}">
+        //                                         </label>
+        //                                     </div>
+        //                                     <div class="mb-3">
+        //                                         <label for="confirm_pwd" class="form-label">비밀번호 확인 :
+        //                                             <input type="password" class="form-control" id="repwd" name="repwd" required>
+        //                                         </label>
+        //                                     </div>
+        //                                 `
+        //                                 $("#mypage-list").append(temp_html);
+        //             });
+        //         });
+        // }
     </script>
 </head>
 
