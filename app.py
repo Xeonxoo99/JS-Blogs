@@ -9,7 +9,7 @@ import certifi
 ca = certifi.where()
 
 ####### DB 경로 설정 필요 #######
-client = MongoClient("mongodb+srv://sparta:test@cluster0.hbtgiv9.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+client = MongoClient("mongodb+srv://sparta:test@cluster0.ewd45u6.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
 db = client.dbsparta
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -44,16 +44,6 @@ def home():
     except Exception as ex: # 에러 종류
         print('에러가 발생 했습니다', ex) # ex는 발생한 에러의 이름을 받아오는 변수
         return render_template('index.html')
-
-@app.route("/movie", methods=["POST"])
-def movie_post():
-    sample_receive = request.form['sample_give']
-    print(sample_receive)
-    return jsonify({'msg':'POST 연결 완료!'})
-
-@app.route("/movie", methods=["GET"])
-def movie_get():
-    return jsonify({'msg':'어서와요 알찬 하루!'})
 
 @app.route("/board")
 def board():
@@ -118,6 +108,11 @@ def del_post():
 	db.doc.delete_one({'no':int(no_receive)})
 	print(no_receive)
 	return jsonify({'msg': '삭제완료!'})
+
+@app.route("/movie", methods=["GET"])
+def movie_get():
+    all_doc = list(db.doc.find({},{'_id':False}))
+    return jsonify({'result':all_doc})
 
 
 #################################
@@ -198,9 +193,9 @@ def api_valid():
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
 # 마이페이지 mypage POST --> 태현님 경로 확인 필요할 것 같습니다!
-# @app.route('/')
-# def home():
-#     return render_template('mypage.html')
+@app.route('/mypage')
+def mypage():
+    return render_template('mypage.html')
 
 @app.route("/mypage", methods=["POST"])
 def mypage_post():
