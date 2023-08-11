@@ -9,7 +9,7 @@ import certifi
 ca = certifi.where()
 
 ####### DB 경로 설정 필요 #######
-client = MongoClient("mongodb+srv://sparta:test@cluster0.ewd45u6.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+client = MongoClient("mongodb+srv://sparta:test@cluster0.hbtgiv9.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
 db = client.dbsparta
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -47,7 +47,20 @@ def home():
 
 @app.route("/board")
 def board():
-    return render_template('board_insert.html')
+    global nick
+    token_receive = request.cookies.get("mytoken")
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+        print(payload)
+        user_info = db.members.find_one({"id": payload["id"]})
+        print(user_info["name"])
+        print("no except!! ")
+        return render_template("board_insert.html", nickname=user_info["name"])
+    except Exception as ex: # 에러 종류
+        print('에러가 발생 했습니다', ex) # ex는 발생한 에러의 이름을 받아오는 변수
+        return render_template('board_insert.html')
+    ##### 기존 소스 #####
+    # return render_template('board_insert.html')
 
 @app.route("/board/save", methods=["GET"])
 def save_get():
@@ -74,21 +87,59 @@ def save_post():
 
 @app.route("/list_detail/<temp>")
 def detail_get(temp):
-	detailDoc = db.doc.find_one({'no':int(temp)},{'_id': False})
-	return render_template('board_detail.html',result = detailDoc,
-												title = detailDoc['title'],
-												no = detailDoc['no'],
-												imgurl = detailDoc['imgurl'],
-												detail = detailDoc['detail'])
+    global nick
+    token_receive = request.cookies.get("mytoken")
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+        print(payload)
+        user_info = db.members.find_one({"id": payload["id"]})
+        detailDoc = db.doc.find_one({'no':int(temp)},{'_id': False})
+        print(user_info["name"])
+        print("no except!! ")
+        return render_template("board_detail.html", nickname=user_info["name"],
+                                                    result = detailDoc,
+                                                    title = detailDoc['title'],
+                                                    no = detailDoc['no'],
+                                                    imgurl = detailDoc['imgurl'],
+                                                    detail = detailDoc['detail'])
+    except Exception as ex: # 에러 종류
+        print('에러가 발생 했습니다', ex) # ex는 발생한 에러의 이름을 받아오는 변수
+        return render_template('board_detail.html')
+    ##### 기존 소스 #####
+	# detailDoc = db.doc.find_one({'no':int(temp)},{'_id': False})
+	# return render_template('board_detail.html',result = detailDoc,
+	# 											title = detailDoc['title'],
+	# 											no = detailDoc['no'],
+	# 											imgurl = detailDoc['imgurl'],
+	# 											detail = detailDoc['detail'])
 								
 @app.route("/board/update/<temp>")
 def update_get(temp):
-	detailDoc = db.doc.find_one({'no':int(temp)},{'_id': False})
-	return render_template('board_update.html',result = detailDoc,
-												title = detailDoc['title'],
-												no = detailDoc['no'],
-												imgurl = detailDoc['imgurl'],
-												detail = detailDoc['detail'])
+    global nick
+    token_receive = request.cookies.get("mytoken")
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+        print(payload)
+        user_info = db.members.find_one({"id": payload["id"]})
+        detailDoc = db.doc.find_one({'no':int(temp)},{'_id': False})
+        print(user_info["name"])
+        print("no except!! ")
+        return render_template("board_update.html", nickname=user_info["name"],
+                                                    result = detailDoc,
+                                                    title = detailDoc['title'],
+                                                    no = detailDoc['no'],
+                                                    imgurl = detailDoc['imgurl'],
+                                                    detail = detailDoc['detail'])
+    except Exception as ex: # 에러 종류
+        print('에러가 발생 했습니다', ex) # ex는 발생한 에러의 이름을 받아오는 변수
+        return render_template('board_update.html')
+    ##### 기존 소스 #####
+	# detailDoc = db.doc.find_one({'no':int(temp)},{'_id': False})
+	# return render_template('board_update.html',result = detailDoc,
+	# 											title = detailDoc['title'],
+	# 											no = detailDoc['no'],
+	# 											imgurl = detailDoc['imgurl'],
+	# 											detail = detailDoc['detail'])
 
 @app.route("/board/update", methods=["POST"])
 def update_post():
@@ -195,7 +246,20 @@ def api_valid():
 # 마이페이지 mypage POST --> 태현님 경로 확인 필요할 것 같습니다!
 @app.route('/mypage')
 def mypage():
-    return render_template('mypage.html')
+    global nick
+    token_receive = request.cookies.get("mytoken")
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+        print(payload)
+        user_info = db.members.find_one({"id": payload["id"]})
+        print(user_info["name"])
+        print("no except!! ")
+        return render_template("mypage.html", nickname=user_info["name"])
+    except Exception as ex: # 에러 종류
+        print('에러가 발생 했습니다', ex) # ex는 발생한 에러의 이름을 받아오는 변수
+        return render_template('mypage.html')
+        ##### 기존 소스 #####
+        # return render_template('mypage.html')
 
 @app.route("/mypage", methods=["POST"])
 def mypage_post():
